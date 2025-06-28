@@ -4,6 +4,7 @@ import com.korniev.stas.user_management_system.TelegramBot;
 import com.korniev.stas.user_management_system.model.User;
 import com.korniev.stas.user_management_system.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.telegram.telegrambots.meta.api.methods.send.SendMessage;
 import org.telegram.telegrambots.meta.exceptions.TelegramApiException;
@@ -13,6 +14,9 @@ import java.util.Optional;
 
 @Service
 public class UserService {
+
+    @Value("${telegram.bot.chatId}")
+    private String chatId;
 
     @Autowired
     private TelegramBot telegramBot;
@@ -35,7 +39,7 @@ public class UserService {
         User saved = repository.save(user);
 
         SendMessage message = new SendMessage();
-        message.setChatId("787508061");
+        message.setChatId(chatId);
         message.setText("Створено користувача: " + user.getUsername());
 
         try {
