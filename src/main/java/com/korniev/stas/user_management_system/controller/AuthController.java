@@ -9,6 +9,7 @@ import com.korniev.stas.user_management_system.service.JwtService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.*;
 import org.telegram.telegrambots.meta.api.methods.send.SendMessage;
 import org.telegram.telegrambots.meta.exceptions.TelegramApiException;
@@ -25,12 +26,14 @@ public class AuthController {
     @Value("${telegram.bot.chatId}")
     private String chatId;
 
+    private final PasswordEncoder passwordEncoder;
     private final UserRepository userRepository;
     private final JwtService jwtService;
 
-    public AuthController(UserRepository userRepository, JwtService jwtService) {
+    public AuthController(UserRepository userRepository, JwtService jwtService, PasswordEncoder passwordEncoder) {
         this.userRepository = userRepository;
         this.jwtService = jwtService;
+        this.passwordEncoder = passwordEncoder;
     }
 
     @PostMapping("/register")
@@ -42,13 +45,13 @@ public class AuthController {
 
         User newUser = new User();
         newUser.setUsername(request.getUsername());
-        newUser.setPassword(request.getPassword()); // У майбутньому — шифруємо!
+        newUser.setPassword(passwordEncoder.encode(request.getPassword())); // У майбутньому — шифруємо!
         newUser.setEmail(request.getEmail());
         newUser.setRole("USER");
 
         SendMessage message = new SendMessage();
         message.setChatId(chatId);
-        message.setText("Створено користувача " + newUser.getUsername() + ".\nТа поштою: " + newUser.getEmail());
+        message.setText("Створено користувача на ім'я " + newUser.getUsername() + ".\nТа поштою: " + newUser.getEmail());
         try {
             telegramBot.execute(message);
         } catch (TelegramApiException e) {
@@ -63,7 +66,7 @@ public class AuthController {
     public ResponseEntity<AuthResponse> login(@RequestBody AuthRequest request) {
         Optional<User> user = userRepository.findByUsername(request.getUsername());
 
-        if (user.isPresent() && user.get().getPassword().equals(request.getPassword())) {
+        if (user.isPresent() && passwordEncoder.matches(request.getPassword(), user.get().getPassword())) {
             String token = jwtService.generateToken(user.get().getUsername());
             return ResponseEntity.ok(new AuthResponse(token));
         }
