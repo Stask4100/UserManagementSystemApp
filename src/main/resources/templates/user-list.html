@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Список користувачів</title>
+</head>
+<body>
+<h1>Користувачі</h1>
+<table border="1">
+    <tr>
+        <th>ID</th>
+        <th>Ім'я</th>
+        <th>Пошта</th>
+        <th>Роль</th>
+    </tr>
+    <tr th:each="user : ${users}">
+        <td th:text="${user.id}">1</td>
+        <td th:text="${user.username}">Ім'я</td>
+        <td th:text="${user.email}">email@example.com</td>
+        <td th:text="${user.role}">USER</td>
+    </tr>
+</table>
+</body>
+</html>
