@@ -5,6 +5,8 @@ import com.korniev.stas.user_management_system.service.UserService;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PostMapping;
 
 import java.util.List;
 
@@ -22,6 +24,18 @@ public class ViewController {
         List<User> users = userService.getAllUsers();
         model.addAttribute("users", users);
         return "user-list";
+    }
+
+    @GetMapping("/users/create")
+    public String showCreateForm(Model model) {
+        model.addAttribute("user", new User()); // порожній об'єкт для заповнення
+        return "create-user";
+    }
+
+    @PostMapping("/users/create")
+    public String createUser(@ModelAttribute User user) {
+        userService.createUser(user);
+        return "redirect:/users/view"; // після створення повертаємо на список
     }
 
 }
