@@ -40,7 +40,7 @@ public class UserService {
 
         SendMessage message = new SendMessage();
         message.setChatId(chatId);
-        message.setText("Створено користувача: " + user.getUsername());
+        message.setText("Створено користувача на ім'я: " + user.getUsername() + "\n" + "Та поштою: " + user.getEmail());
 
         try {
             telegramBot.execute(message);
