@@ -7,6 +7,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Optional;
 
 @Controller
 public class ViewController {
@@ -39,6 +40,28 @@ public class ViewController {
     @PostMapping("/users/delete/{id}")
     public String deleteUser(@PathVariable Long id) {
         userService.deleteUser(id);
+        return "redirect:/users/view";
+    }
+
+    @GetMapping("/users/update/{id}")
+    public String showUpdatePage(@PathVariable("id") Long id, Model model) {
+        Optional<User> optionalUser = userService.getUserById(id);
+
+        if (optionalUser.isPresent()) {
+            User user = optionalUser.get();
+            // Тут ви можете працювати з об'єктом 'user'
+            model.addAttribute("user", user);
+        } else {
+            // Об'єкт не знайдено, потрібно обробити цю ситуацію
+            // Наприклад, перенаправити на сторінку помилки або на список користувачів
+            return "redirect:/users/view";
+        }
+        return "update-user";
+    }
+
+    @PostMapping("/users/update")
+    public String updateUser(@ModelAttribute("user") User user) {
+        userService.updateUser(user.getId(), user);
         return "redirect:/users/view";
     }
 

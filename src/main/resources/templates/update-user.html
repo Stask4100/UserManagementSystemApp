@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Оновити користувача</title>
+</head>
+<body>
+<h1>Оновити дані користувача</h1>
+
+<form th:action="@{/users/update}" th:object="${user}" method="post">
+
+    <input type="hidden" th:field="*{id}" />
+
+    <div>
+        <label for="username">Ім'я:</label>
+        <input type="text" id="username" th:field="*{username}" required />
+    </div>
+
+    <div>
+        <label for="email">Email:</label>
+        <input type="email" id="email" th:field="*{email}" required />
+    </div>
+
+    <div>
+        <label for="role">Роль:</label>
+        <input type="text" id="role" th:field="*{role}" required />
+    </div>
+
+    <div>
+        <button type="submit">Зберегти зміни</button>
+    </div>
+
+</form>
+
+
+<br/>
+<a th:href="@{/users/view}">⬅ Назад до списку</a>
+</body>
+</html>

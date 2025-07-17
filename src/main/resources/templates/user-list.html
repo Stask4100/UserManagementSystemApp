@@ -30,6 +30,9 @@
             <form th:action="@{'/users/delete/' + ${user.id}}" method="post" style="display:inline;">
                 <button type="submit" onclick="return confirm('Ви впевнені, що хочете видалити користувача?');">Видалити</button>
             </form>
+            <a th:href="@{'/users/update/' + ${user.id}}">
+                <button type="submit">Оновити</button>
+            </a>
         </td>
     </tr>
 </table>

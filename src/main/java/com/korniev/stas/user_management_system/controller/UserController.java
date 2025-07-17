@@ -4,9 +4,11 @@ import com.korniev.stas.user_management_system.model.User;
 import com.korniev.stas.user_management_system.service.UserService;
 import jakarta.validation.Valid;
 import org.springframework.http.ResponseEntity;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Optional;
 
 @RestController
 @RequestMapping("/api/users")
