@@ -4,10 +4,7 @@ import com.korniev.stas.user_management_system.model.User;
 import com.korniev.stas.user_management_system.service.UserService;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -29,7 +26,7 @@ public class ViewController {
 
     @GetMapping("/users/create")
     public String showCreateForm(Model model) {
-        model.addAttribute("user", new User()); // порожній об'єкт для заповнення
+        model.addAttribute("user", new User());
         return "create-user";
     }
 
@@ -44,6 +41,5 @@ public class ViewController {
         userService.deleteUser(id);
         return "redirect:/users/view";
     }
-
 
 }

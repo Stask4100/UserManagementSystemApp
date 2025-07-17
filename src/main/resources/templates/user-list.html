@@ -3,10 +3,18 @@
 <head>
     <meta charset="UTF-8">
     <title>Список користувачів</title>
+    <link rel="stylesheet" th:href="@{/css/styles.css}">
 </head>
 <body>
 <h1>Користувачі</h1>
 <table border="1">
+
+    <form th:action="@{/users/search}" method="get">
+        <input type="text" name="username" placeholder="Пошук за ім’ям">
+        <button type="submit">🔍 Пошук</button>
+    </form>
+
+
     <tr>
         <th>ID</th>
         <th>Ім'я</th>

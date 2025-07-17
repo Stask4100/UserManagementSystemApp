@@ -1,0 +1,43 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Результати пошуку</title>
+    <meta charset="UTF-8" />
+    <link rel="stylesheet" th:href="@{/css/search-result.css}">
+
+</head>
+<body>
+
+<div class="container mt-5">
+    <h1>Результати пошуку</h1>
+
+    <div th:if="${users.size() > 0}">
+        <table border="1" cellpadding="8" cellspacing="0">
+            <thead>
+            <tr>
+                <th>ID</th>
+                <th>Ім’я</th>
+                <th>Пошта</th>
+                <th>Дія</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr th:each="el : ${users}">
+                <td th:text="${el.id}">1</td>
+                <td th:text="${el.username}">Ім'я</td>
+                <td th:text="${el.email}">email@example.com</td>
+                <td>
+                    <a th:href="@{'/users/' + ${el.id}}">Деталі</a>
+                </td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+
+    <div th:if="${users.size() == 0}">
+        <p>Нічого не знайдено.</p>
+    </div>
+</div>
+
+</body>
+</html>
